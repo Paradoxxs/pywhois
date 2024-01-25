@@ -3379,7 +3379,8 @@ class WhoisSite(WhoisEntry):
     def __init__(self, domain, text):
         if "DOMAIN NOT FOUND" in text:
             raise PywhoisError(text)
-
+        else:
+            WhoisEntry.__init__(self, domain, text, self.regex)
           
 class WhoisEdu(WhoisEntry):
     """Whois parser for .edu domains"""
