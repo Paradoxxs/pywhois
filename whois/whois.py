@@ -277,6 +277,8 @@ class NICClient(object):
             return NICClient.CR_HOST
         elif tld == 'de':
             return NICClient.DE_HOST
+        elif tld == 'dk':
+            return NICClient.DK_HOST
         elif tld == 'dev':
             return NICClient.DEV_HOST
         elif tld == 'do':
