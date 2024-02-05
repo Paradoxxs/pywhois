@@ -63,7 +63,7 @@ class NICClient(object):
     DENICHOST = "whois.denic.de"
     DEV_HOST = "whois.nic.google"
     DE_HOST = "whois.denic.de"
-    DK_HOST = "whois.dk-hostmaster.dk"
+    DK_HOST = "whois.punktum.dk"
     DNICHOST = "whois.nic.mil"
     DO_HOST = "whois.nic.do"
     GAMES_HOST = "whois.nic.games"
