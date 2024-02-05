@@ -50,7 +50,7 @@ Or checkout latest version from repository:
 
 .. sourcecode:: bash
 
-    $ git clone git@github.com:richardpenman/whois.git
+    $ git clone https://github.com/Paradoxxs/pywhois
 
 Note that then you will need to manually install the futures module, which allows supporting both Python 2 & 3:
 
