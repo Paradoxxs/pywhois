@@ -6,8 +6,8 @@ def read(filename):
     return open(os.path.join(os.path.dirname(__file__), filename)).read()
 
 setuptools.setup(
-    name='python-whois',
-    version='0.8.2',
+    name='whois-py',
+    version='0.1',
     description="Whois querying and parsing of domain registration information.",
     long_description=read('README.rst'),
     install_requires=[
@@ -24,9 +24,9 @@ setuptools.setup(
         'Programming Language :: Python :: 3',
     ],
     keywords='whois, python',
-    author='Richard Penman',
-    author_email='richard.penman@gmail.com',
-    url='https://github.com/richardpenman/whois',
+    author='Paradoxxs',
+    author_email='pypi@adamtilmar.com',
+    url='https://github.com/Paradoxxs/pywhois',
     license='MIT',
     packages=['whois'],
     package_dir={'whois':'whois'},
