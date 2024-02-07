@@ -1,5 +1,5 @@
 Metadata-Version: 2.1
-Name: whois-py
+Name: whois-pypi
 Version: 0.1
 Summary: Whois querying and parsing of domain registration information.
 Home-page: https://github.com/Paradoxxs/pywhois
@@ -66,7 +66,7 @@ Install from pypi:
 
 .. sourcecode:: bash
 
-    $ pip install python-whois
+    $ pip install whois-pypi
 
 Or checkout latest version from repository:
 

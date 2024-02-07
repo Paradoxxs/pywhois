@@ -6,8 +6,8 @@ def read(filename):
     return open(os.path.join(os.path.dirname(__file__), filename)).read()
 
 setuptools.setup(
-    name='whois-py',
-    version='0.1',
+    name='whois-pypi',
+    version='0.2',
     description="Whois querying and parsing of domain registration information.",
     long_description=read('README.rst'),
     install_requires=[
@@ -20,7 +20,6 @@ setuptools.setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP',
-        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
     ],
     keywords='whois, python',

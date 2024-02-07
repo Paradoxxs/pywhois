@@ -11,9 +11,9 @@ whois/parser.py
 whois/time_zones.py
 whois/whois.py
 whois/data/public_suffix_list.dat
-whois_py.egg-info/PKG-INFO
-whois_py.egg-info/SOURCES.txt
-whois_py.egg-info/dependency_links.txt
-whois_py.egg-info/not-zip-safe
-whois_py.egg-info/requires.txt
-whois_py.egg-info/top_level.txt
+whois_pypi.egg-info/PKG-INFO
+whois_pypi.egg-info/SOURCES.txt
+whois_pypi.egg-info/dependency_links.txt
+whois_pypi.egg-info/not-zip-safe
+whois_pypi.egg-info/requires.txt
+whois_pypi.egg-info/top_level.txt

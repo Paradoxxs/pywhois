@@ -27,25 +27,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-from __future__ import print_function
-from __future__ import unicode_literals
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-
 import os
 import optparse
 import socket
 import sys
 import re
-from builtins import *
 import logging
-standard_library.install_aliases()
+
 
 logger = logging.getLogger(__name__)
 
 
-class NICClient(object):
+class NICClient:
 
     ABUSEHOST = "whois.abuse.net"
     AI_HOST = "whois.nic.ai"
@@ -238,9 +231,7 @@ class NICClient(object):
         """Choose initial lookup NIC host"""
         try:
             domain = domain.encode('idna').decode('utf-8')
-        except TypeError:
-            domain = domain.decode('utf-8').encode('idna').decode('utf-8')
-        except AttributeError:
+        except (TypeError, AttributeError):
             domain = domain.decode('utf-8').encode('idna').decode('utf-8')
         if domain.endswith("-NORID"):
             return NICClient.NORIDHOST

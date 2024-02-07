@@ -1,10 +1,10 @@
 Metadata-Version: 2.1
 Name: whois-pypi
-Version: 0.8.2
+Version: 0.2
 Summary: Whois querying and parsing of domain registration information.
-Home-page: https://github.com/richardpenman/whois
-Author: Richard Penman
-Author-email: richard.penman@gmail.com
+Home-page: https://github.com/Paradoxxs/pywhois
+Author: Paradoxxs
+Author-email: pypi@adamtilmar.com
 License: MIT
 Keywords: whois,python
 Classifier: Environment :: Web Environment
@@ -13,7 +13,6 @@ Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
 Classifier: Programming Language :: Python
 Classifier: Topic :: Internet :: WWW/HTTP
-Classifier: Programming Language :: Python :: 2
 Classifier: Programming Language :: Python :: 3
 License-File: LICENSE.txt
 Requires-Dist: future
@@ -66,7 +65,7 @@ Install from pypi:
 
 .. sourcecode:: bash
 
-    $ pip install whois-py
+    $ pip install whois-pypi
 
 Or checkout latest version from repository:
 

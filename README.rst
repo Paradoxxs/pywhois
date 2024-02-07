@@ -44,7 +44,7 @@ Install from pypi:
 
 .. sourcecode:: bash
 
-    $ pip install whois-py
+    $ pip install whois-pypi
 
 Or checkout latest version from repository:
 

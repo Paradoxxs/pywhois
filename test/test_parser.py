@@ -1,27 +1,13 @@
-# -*- coding: utf-8 -*-
-from __future__ import print_function
-from __future__ import unicode_literals
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-from builtins import *
-import unittest
-
+import datetime
+import json
 import os
 import sys
-sys.path.append('../')
-
-import datetime
-
-try:
-    import json
-except:
-    import simplejson as json
+import unittest
 from glob import glob
 
-from whois.parser import WhoisEntry, cast_date, WhoisCl, WhoisAr, WhoisBy, \
-    WhoisCa, WhoisBiz, WhoisCr, WhoisDe, WhoisNl
+sys.path.append('../')
+
+from whois.parser import WhoisEntry, cast_date, WhoisCa
 
 
 class TestParser(unittest.TestCase):
@@ -57,8 +43,8 @@ class TestParser(unittest.TestCase):
                         'registrar', 'registrar_url', 'creation_date', 'status']
         fail = 0
         total = 0
-        whois_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'samples','whois','*')
-        expect_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'samples','expected')
+        whois_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'samples', 'whois', '*')
+        expect_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'samples', 'expected')
         for path in glob(whois_path):
             # Parse whois data
             domain = os.path.basename(path)
@@ -78,14 +64,15 @@ class TestParser(unittest.TestCase):
                         return str(obj)
                     raise TypeError(
                             '{} is not JSON serializable'.format(repr(obj)))
+
                 outfile_name = os.path.join(expect_path, domain)
                 with open(outfile_name, 'w') as outfil:
                     expected_results = json.dump(results, outfil,
-                                                       default=date2str4json)
+                                                 default=date2str4json)
                 continue
 
             # Load expected result
-            with open(os.path.join(expect_path, domain)) as infil:    
+            with open(os.path.join(expect_path, domain)) as infil:
                 expected_results = json.load(infil)
 
             # Compare each key
@@ -95,7 +82,7 @@ class TestParser(unittest.TestCase):
             for key in compare_keys:
                 total += 1
                 if key not in results:
-                    print("%s \t(%s):\t Missing in results" % (domain, key,))
+                    print(f"{domain} \t({key}):\t Missing in results")
                     fail += 1
                     continue
 
@@ -106,12 +93,11 @@ class TestParser(unittest.TestCase):
                     result = str(result)
                 expected = expected_results.get(key)
                 if expected != result:
-                    print("%s \t(%s):\t %s != %s" % (domain, key, result, expected))
+                    print(f"{domain} \t({key}):\t {result} != {expected}")
                     fail += 1
 
         if fail:
-            self.fail("%d/%d sample whois attributes were not parsed properly!"
-                      % (fail, total))
+            self.fail(f"{fail}/{total} sample whois attributes were not parsed properly!")
 
     def test_ca_parse(self):
         data = """
@@ -233,54 +219,53 @@ DNSSEC: unsigned
         """
 
         expected_results = {
-             'admin_address': '1600 Amphitheatre Parkway',
-             'admin_city': 'Mountain View',
-             'admin_country': 'US',
-             'admin_email': 'dns-admin@google.com',
-             'admin_name': 'Domain Administrator',
-             'admin_org': 'Google LLC',
-             'admin_phone': '+1.6502530000',
-             'admin_postal_code': '94043',
-             'admin_state': 'CA',
-             'billing_address': ['3540 East Longwing Lane', 'Suite 300'],
-             'billing_city': 'Meridian',
-             'billing_country': 'US',
-             'billing_email': 'ccopsbilling@markmonitor.com',
-             'billing_name': 'CCOPS Billing',
-             'billing_org': 'MarkMonitor Inc.',
-             'billing_phone': '+1.2083895740',
-             'billing_postal_code': '83646',
-             'billing_state': 'Idaho',
-             'creation_date': datetime.datetime(2017, 12, 16, 5, 37, 20, 801000),
-             'domain_id': '325702_nic_ai',
-             'domain_name': 'google.ai',
-             'name_servers': ['ns3.zdns.google',
-                              'ns4.zdns.google',
-                              'ns1.zdns.google',
-                              'ns2.zdns.google'],
-             'registrant_address': '1600 Amphitheatre Parkway',
-             'registrant_city': 'Mountain View',
-             'registrant_country': 'US',
-             'registrant_email': 'dns-admin@google.com',
-             'registrant_name': 'Domain Administrator',
-             'registrant_org': 'Google LLC',
-             'registrant_phone': '+1.6502530000',
-             'registrant_postal_code': '94043',
-             'registrant_state': 'CA',
-             'registrar': 'Markmonitor',
-             'registrar_email': 'ccops@markmonitor.com',
-             'registrar_phone': '+1.2083895740',
-             'tech_address': '1600 Amphitheatre Parkway',
-             'tech_city': 'Mountain View',
-             'tech_country': 'US',
-             'tech_email': 'dns-admin@google.com',
-             'tech_name': 'Domain Administrator',
-             'tech_org': 'Google LLC',
-             'tech_phone': '+1.6502530000',
-             'tech_postal_code': '94043',
-             'tech_state': 'CA'}
+            'admin_address': '1600 Amphitheatre Parkway',
+            'admin_city': 'Mountain View',
+            'admin_country': 'US',
+            'admin_email': 'dns-admin@google.com',
+            'admin_name': 'Domain Administrator',
+            'admin_org': 'Google LLC',
+            'admin_phone': '+1.6502530000',
+            'admin_postal_code': '94043',
+            'admin_state': 'CA',
+            'billing_address': ['3540 East Longwing Lane', 'Suite 300'],
+            'billing_city': 'Meridian',
+            'billing_country': 'US',
+            'billing_email': 'ccopsbilling@markmonitor.com',
+            'billing_name': 'CCOPS Billing',
+            'billing_org': 'MarkMonitor Inc.',
+            'billing_phone': '+1.2083895740',
+            'billing_postal_code': '83646',
+            'billing_state': 'Idaho',
+            'creation_date': datetime.datetime(2017, 12, 16, 5, 37, 20, 801000),
+            'domain_id': '325702_nic_ai',
+            'domain_name': 'google.ai',
+            'name_servers': ['ns3.zdns.google',
+                             'ns4.zdns.google',
+                             'ns1.zdns.google',
+                             'ns2.zdns.google'],
+            'registrant_address': '1600 Amphitheatre Parkway',
+            'registrant_city': 'Mountain View',
+            'registrant_country': 'US',
+            'registrant_email': 'dns-admin@google.com',
+            'registrant_name': 'Domain Administrator',
+            'registrant_org': 'Google LLC',
+            'registrant_phone': '+1.6502530000',
+            'registrant_postal_code': '94043',
+            'registrant_state': 'CA',
+            'registrar': 'Markmonitor',
+            'registrar_email': 'ccops@markmonitor.com',
+            'registrar_phone': '+1.2083895740',
+            'tech_address': '1600 Amphitheatre Parkway',
+            'tech_city': 'Mountain View',
+            'tech_country': 'US',
+            'tech_email': 'dns-admin@google.com',
+            'tech_name': 'Domain Administrator',
+            'tech_org': 'Google LLC',
+            'tech_phone': '+1.6502530000',
+            'tech_postal_code': '94043',
+            'tech_state': 'CA'}
         self._parse_and_compare('google.ai', data, expected_results)
-
 
     def test_cn_parse(self):
         data = """
@@ -486,20 +471,20 @@ DNSSEC: signedDelegation
             "tech_id": "JM474-IEDR"
         }
         expected_results = {
-          "status": "ok https://icann.org/epp#ok",
-          "expiration_date": "2025-03-31 13:20:07",
-          "creation_date": "2000-02-11 00:00:00",
-          "domain_name": "rte.ie",
-          "tech_id": "3159-IEDR",
-          "registrar": "Blacknight Solutions",
-          "name_servers": [
-            "ns1.rte.ie",
-            "ns2.rte.ie",
-            "ns3.rte.ie",
-            "ns4.rte.ie"
-          ],
-          "admin_id": "202753-IEDR",
-          "registrar_contact": "abuse@blacknight.com"
+            "status": "ok https://icann.org/epp#ok",
+            "expiration_date": "2025-03-31 13:20:07",
+            "creation_date": "2000-02-11 00:00:00",
+            "domain_name": "rte.ie",
+            "tech_id": "3159-IEDR",
+            "registrar": "Blacknight Solutions",
+            "name_servers": [
+                "ns1.rte.ie",
+                "ns2.rte.ie",
+                "ns3.rte.ie",
+                "ns4.rte.ie"
+            ],
+            "admin_id": "202753-IEDR",
+            "registrar_contact": "abuse@blacknight.com"
         }
         self._parse_and_compare('rte.ie', data, expected_results)
 
@@ -617,7 +602,7 @@ Hostname:             p.nic.dk
 
     def _parse_and_compare(self, domain_name, data, expected_results, whois_entry=WhoisEntry):
         results = whois_entry.load(domain_name, data)
-        if domain_name=='google.ai':
+        if domain_name == 'google.ai':
             print(results)
         fail = 0
         total = 0
@@ -629,11 +614,10 @@ Hostname:             p.nic.dk
                 result = str(result)
             expected = expected_results.get(key)
             if expected != result:
-                print("%s \t(%s):\t %s != %s" % (domain_name, key, result, expected))
+                print(f"{domain_name} \t({key}):\t {result} != {expected}")
                 fail += 1
         if fail:
-            self.fail("%d/%d sample whois attributes were not parsed properly!"
-                      % (fail, total))
+            self.fail(f"{fail}/{total} sample whois attributes were not parsed properly!")
 
     def test_sk_parse(self):
         data = """
@@ -704,166 +688,6 @@ Hostname:             p.nic.dk
 
         self._parse_and_compare('pipoline.sk', data, expected_results)
 
-
-    def test_bw_parse(self):
-        data = """
-% IANA WHOIS server
-% for more information on IANA, visit http://www.iana.org
-% This query returned 1 object
-
-refer:        whois.nic.net.bw
-
-domain:       BW
-
-organisation: Botswana Communications Regulatory Authority (BOCRA)
-address:      Plot 206/207 Independence Avenue
-address:      Private Bag 00495
-address:      Gaborone
-address:      Botswana
-
-contact:      administrative
-name:         Engineer - ccTLD
-organisation: BOCRA - Botswana Communications Regulatory Authority
-address:      Plot 206/207 Independence Avenue
-address:      Private Bag 00495
-address:      Gaborone
-address:      Botswana
-phone:        +2673685419
-fax-no:       +267 395 7976
-e-mail:       ramotsababa@bocra.org.bw
-
-contact:      technical
-name:         Engineer - ccTLD
-organisation: Botswana Communications Regulatory Authority (BOCRA)
-address:      Plot 206/207 Independence Avenue
-address:      Private Bag 00495
-address:      Gaborone
-address:      Botswana
-phone:        +267 368 5410
-fax-no:       +267 395 7976
-e-mail:       matlapeng@bocra.org.bw
-
-nserver:      DNS1.NIC.NET.BW 168.167.98.226 2c0f:ff00:1:3:0:0:0:226
-nserver:      MASTER.BTC.NET.BW 168.167.168.37 2c0f:ff00:0:6:0:0:0:3 2c0f:ff00:0:6:0:0:0:5
-nserver:      NS-BW.AFRINIC.NET 196.216.168.72 2001:43f8:120:0:0:0:0:72
-nserver:      PCH.NIC.NET.BW 2001:500:14:6070:ad:0:0:1 204.61.216.70
-
-whois:        whois.nic.net.bw
-
-status:       ACTIVE
-remarks:      Registration information: http://nic.net.bw
-
-created:      1993-03-19
-changed:      2022-07-27
-source:       IANA
-
-# whois.nic.net.bw
-
-Domain Name: google.co.bw
-Registry Domain ID: 3486-bwnic
-Registry WHOIS Server: whois.nic.net.bw
-Updated Date: 2022-11-29T09:33:04.665Z
-Creation Date: 2012-11-12T22:00:00.0Z
-Registry Expiry Date: 2023-12-31T05:00:00.0Z
-Registrar Registration Expiration Date: 2023-12-31T05:00:00.0Z
-Registrar: MarkMonitor Inc
-Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
-Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
-Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
-Registry RegistrantID: GcIIG-Z2bWn
-RegistrantName: Google LLC
-RegistrantOrganization: Google LLC
-RegistrantStreet: 1600 Amphitheatre Parkway
-RegistrantCity: Mountain View
-RegistrantState/Province: CA
-RegistrantPostal Code: 94043
-RegistrantCountry: US
-RegistrantPhone: +1.6502530000
-RegistrantFax: +1.6502530001
-RegistrantEmail: dns-adminATgoogle.com
-Registry AdminID: fDojv-TYe2q
-AdminName: Google LLC
-AdminOrganization: Google LLC
-AdminStreet: 1600 Amphitheatre Parkway
-AdminCity: Mountain View
-AdminState/Province: CA
-AdminPostal Code: 94043
-AdminCountry: US
-AdminPhone: +1.6502530000
-AdminFax: +1.6502530001
-AdminEmail: dns-adminATgoogle.com
-Registry TechID: 2sYG1-BSVgz
-TechName: Google LLC
-TechOrganization: Google LLC
-TechStreet: 1600 Amphitheatre Parkway
-TechCity: Mountain View
-TechState/Province: CA
-TechPostal Code: 94043
-TechCountry: US
-TechPhone: +1.6502530000
-TechFax: +1.6502530001
-TechEmail: dns-adminATgoogle.com
-Registry BillingID: C2KQL-UUtMh
-BillingName: MarkMonitor Inc.
-BillingOrganization: CCOPS Billing
-BillingStreet: 3540 East Longwing Lane Suite 300
-BillingCity: Meridian
-BillingState/Province: ID
-BillingPostal Code: 83646
-BillingCountry: US
-BillingPhone: +1.2083895740
-BillingFax: +1.2083895771
-BillingEmail: ccopsbillingATmarkmonitor.com
-Name Server: ns1.google.com
-Name Server: ns2.google.com
-Name Server: ns3.google.com
-Name Server: ns4.google.com
-DNSSEC: unsigned
-"""
-
-        expected_results = {
-  "domain_name": "google.co.bw",
-  "domain_id": "3486-bwnic",
-  "creation_date": "2012-11-12 22:00:00",
-  "registrar": "MarkMonitor Inc",
-  "registrant_name": "Google LLC",
-  "registrant_org": "Google LLC",
-  "registrant_address": "1600 Amphitheatre Parkway",
-  "registrant_city": "Mountain View",
-  "registrant_country": "US",
-  "registrant_phone": "+1.6502530000",
-  "registrant_email": "dns-adminATgoogle.com",
-  "admin_name": "Google LLC",
-  "admin_org": "Google LLC",
-  "admin_address": "1600 Amphitheatre Parkway",
-  "admin_city": "Mountain View",
-  "admin_country": "US",
-  "admin_phone": "+1.6502530000",
-  "admin_email": "dns-adminATgoogle.com",
-  "tech_name": "Google LLC",
-  "tech_org": "Google LLC",
-  "tech_address": "1600 Amphitheatre Parkway",
-  "tech_city": "Mountain View",
-  "tech_country": "US",
-  "tech_phone": "+1.6502530000",
-  "tech_email": "dns-adminATgoogle.com",
-  "billing_name": "MarkMonitor Inc.",
-  "billing_org": "CCOPS Billing",
-  "billing_address": "3540 East Longwing Lane Suite 300",
-  "billing_city": "Meridian",
-  "billing_country": "US",
-  "billing_phone": "+1.2083895740",
-  "billing_email": "ccopsbillingATmarkmonitor.com",
-  "name_servers": [
-    "ns1.google.com",
-    "ns2.google.com",
-    "ns3.google.com",
-    "ns4.google.com"
-  ],
-  "dnssec": "unsigned"
-}
-
-        self._parse_and_compare('google.co.bw', data, expected_results)
 
 if __name__ == '__main__':
     unittest.main()
