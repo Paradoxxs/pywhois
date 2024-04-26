@@ -95,7 +95,7 @@ class NICClient:
     SNICHOST = "whois.6bone.net"
     WEBSITE_HOST = "whois.nic.website"
     ZA_HOST = "whois.registry.net.za"
-    RU_HOST = "whois.nic.ru"
+    RU_HOST = "whois.tcinet.ru"
     IDS_HOST = "whois.identitydigital.services"
     GDD_HOST = "whois.dnrs.godaddy"
     SHOP_HOST = "whois.nic.shop"
