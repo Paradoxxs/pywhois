@@ -2049,6 +2049,7 @@ class WhoisDk(WhoisEntry):
 
 class WhoisAi(WhoisEntry):
     """Whois parser for .ai domains"""
+<<<<<<< HEAD
     regex = {
         'domain_name':                      r'Domain Name\.*: *(.+)',
         'domain_id':                        r'Registry Domain ID\.*: *(.+)',
@@ -2093,8 +2094,57 @@ class WhoisAi(WhoisEntry):
         'billing_phone':                    r'BillingPhone\.*: *(.+)',
         'billing_email':                    r'BillingEmail\.*: *(.+)',
         'name_servers':                     r'Name Server\.*: *(.+)',
-    }
+=======
 
+    # More permissive with postal code
+    # Should be compatible with the previous format in case it returns
+    regex = {
+        "domain_name": r"Domain Name\s*:\s*(.+)",
+        "domain_id": r"Registry Domain ID\s*:\s*(.+)",
+        "creation_date": r"Creation Date:\s*(.+)",
+        "registrar": r"Registrar:\s*(.+)",
+        "registrar_phone": r"Registrar Abuse Contact Phone:\s*(.+)",
+        "registrar_email": r"Registrar Abuse Contact Email:\s*(.+)",
+        "registrant_name": r"Registrant\s*Name:\s*(.+)",
+        "registrant_org": r"Registrant\s*Organization:\s*(.+)",
+        "registrant_address": r"Registrant\s*Street:\s*(.+)",
+        "registrant_city": r"Registrant\s*City:\s*(.+)",
+        "registrant_state": r"Registrant\s*State.*:\s*(.+)",
+        "registrant_postal_code": r"Registrant\s*Postal\s*Code\s*:\s*(.+)",
+        "registrant_country": r"Registrant\s*Country\s*:\s*(.+)",
+        "registrant_phone": r"Registrant\s*Phone\.*:\s*(.+)",
+        "registrant_email": r"Registrant\s*Email\.*:\s*(.+)",
+        "admin_name": r"Admin\s*Name:\s*(.+)",
+        "admin_org": r"Admin\s*Organization:\s*(.+)",
+        "admin_address": r"Admin\s*Street:\s*(.+)",
+        "admin_city": r"Admin\s*City:\s*(.+)",
+        "admin_state": r"Admin\s*State(?:/Province)?\s*:\s*(.+)",
+        "admin_postal_code": r"Admin\s*Postal Code\s*:\s*(.+)",
+        "admin_country": r"Admin\s*Country\.*:\s*(.+)",
+        "admin_phone": r"Admin\s*Phone\.*:\s*(.+)",
+        "admin_email": r"Admin\s*Email\.*:\s*(.+)",
+        "tech_name": r"Tech\s*Name:\s*(.+)",
+        "tech_org": r"Tech\s*Organization:\s*(.+)",
+        "tech_address": r"Tech\s*Street:\s*(.+)",
+        "tech_city": r"Tech\s*City:\s*(.+)",
+        "tech_state": r"Tech\s*State.*:\s*(.+)",
+        "tech_postal_code": r"Tech\s*Postal\s*Code\s*:\s*(.+)",
+        "tech_country": r"Tech\s*Country\s*:\s*(.+)",
+        "tech_phone": r"Tech\s*Phone\s*:\s*(.+)",
+        "tech_email": r"Tech\s*Email\s*:\s*(.+)",
+        # NOTE: As of 6/2024, I don't see any domains that have billing fields for .ai
+        "billing_name": r"Billing\s*Name:\s*(.+)",
+        "billing_org": r"Billing\s*Organization:\s*(.+)",
+        "billing_address": r"Billing\s*Street:\s*(.+)",
+        "billing_city": r"Billing\s*City:\s*(.+)",
+        "billing_state": r"Billing\s*State.*:\s*(.+)",
+        "billing_postal_code": r"Billing\s*Postal Code\s*:\s*(.+)",
+        "billing_country": r"Billing\s*Country\.*:\s*(.+)",
+        "billing_phone": r"Billing\s*Phone\.*:\s*(.+)",
+        "billing_email": r"Billing\s*Email\.*:\s*(.+)",
+        "name_servers": r"Name Server\.*:\s*(.+)",
+>>>>>>> bff1d00 (This addresses #223 while trying to be backwards compatible with the old format just in case ...)
+    }
     def __init__(self, domain, text):
         if 'not registered' in text:
             raise PywhoisError(text)
