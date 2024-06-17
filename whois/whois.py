@@ -155,13 +155,14 @@ class NICClient:
         s.close()
         return re.search(r"whois:\s+(.*?)\n",response.decode('utf-8')).group(1)
 
-    def whois(self, query, hostname, flags, many_results=False, quiet=False):
+    def whois(self, query, hostname, flags, many_results=False, quiet=False, timeout=10):
         """Perform initial lookup with TLD whois server
         then, if the quick flag is false, search that result
         for the region-specific whois server and do a lookup
         there for contact details.  If `quiet` is `True`, will
         not send a message to logger when a socket error
-        is encountered.
+        is encountered. Uses `timeout` as a number of seconds
+        to set as a timeout on the socket
         """
         response = b''
         if "SOCKS" in os.environ:
@@ -185,7 +186,7 @@ class NICClient:
             s.set_proxy(socks.SOCKS5, socksproxy, int(port), True, socks_user, socks_password)
         else:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.settimeout(10)
+        s.settimeout(timeout)
         try:  # socket.connect in a try, in order to allow things like looping whois on different domains without
             # stopping on timeouts: https://stackoverflow.com/questions/25447803/python-socket-connection-exception
             s.connect((hostname, 43))
