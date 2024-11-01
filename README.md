@@ -46,7 +46,7 @@ pip install python-whois
 Or checkout latest version from repository:
 
 ```bash
-git clone git@github.com:richardpenman/whois.git
+git clone git@https://github.com/Paradoxxs/pywhois.git
 pip install -r requirements.txt
 ```
 
